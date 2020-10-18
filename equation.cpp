@@ -3,7 +3,10 @@
 #include <assert.h>
 
 #define INF_ROOTS_CASE -1
-
+#define NO_SOLUTION 0
+#define LINEAR_ONE_SOLUTION 1
+#define TWO_SIMILAR_SOLUTIONS 11
+#define TWO_SOLUTIONS 2
 
 int quadratic_equation(double coef_a, double coef_b, double coef_c, double* root1, double* root2)
     {
@@ -20,13 +23,13 @@ int quadratic_equation(double coef_a, double coef_b, double coef_c, double* root
         {
         if (coef_b == 0)
             {
-            return (coef_c != 0)? 0 : INF_ROOTS_CASE;
+            return (coef_c != 0)? NO_SOLUTION : INF_ROOTS_CASE;
             }
 
         else // b != 0
             {
             *root1 = -coef_c / coef_b;
-            return 1; //
+            return LINEAR_ONE_SOLUTION; //equation is linear - has the only root
             }
         }
     else // a != 0
@@ -35,7 +38,7 @@ int quadratic_equation(double coef_a, double coef_b, double coef_c, double* root
 
         if (discriminant < 0)
             {
-            return 0;
+            return NO_SOLUTION; //equation has no roots
             }
 
         else
@@ -44,13 +47,13 @@ int quadratic_equation(double coef_a, double coef_b, double coef_c, double* root
                 {
                 *root1 = - coef_b / (2 * coef_a);
                 *root2 = *root1;
-                return 2;
+                return TWO_SIMILAR_SOLUTIONS;
                 }
             else
                 {
                 *root1 = (-coef_b + sqrt(discriminant)) / (2 * coef_a);
                 *root2 = (-coef_b - sqrt(discriminant)) / (2 * coef_a);
-                return  3;
+                return  TWO_SOLUTIONS;
                 }
             }
         }
@@ -69,16 +72,16 @@ int main()
 
     switch (num_of_roots)
         {
-        case 0: printf ("The equation has no roots");
+        case NO_SOLUTION: printf ("The equation has no roots");
                 break;
 
-        case 1: printf ("The equation is linear - the only root is %lg", root1);
+        case LINEAR_ONE_SOLUTION: printf ("The equation is linear - the only root is %lg", root1);
                 break;
 
-        case 2: printf ("There are two equal roots of the equation: %lg", root1);
+        case TWO_SIMILAR_SOLUTIONS: printf ("There are two equal roots of the equation: %lg", root1);
                 break;
 
-        case 3: printf ("The first root is  %lg\n", root1);
+        case TWO_SOLUTIONS: printf ("The first root is  %lg\n", root1);
                 printf ("The second root is %lg", root2);
                 break;
 
